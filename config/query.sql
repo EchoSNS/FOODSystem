@@ -1,0 +1,72 @@
+CREATE DATABASE FOODSSystemDB;
+
+USE FOODSSystemDB;
+
+CREATE TABLE CustomerTbl(
+	CustomerID INT NOT NULL AUTO_INCREMENT,
+	CustomerUsername VARCHAR(30) NOT NULL,
+	CustomerPassword VARCHAR(255) NOT NULL,
+	EmailAddress VARCHAR(320) NOT NULL,
+	FirstName VARCHAR(100),
+	MiddleName VARCHAR(100),
+	LastName VARCHAR(100),
+	Birthdate DATE,
+	ContactNum VARCHAR(50),
+	AccountStatus INT,
+	PRIMARY KEY (CustomerID)
+);
+
+CREATE TABLE CategoryTbl(
+	CategoryID INT NOT NULL AUTO_INCREMENT,
+	CategoryName VARCHAR(50) NOT NULL,
+	PRIMARY KEY (CategoryID)
+);
+
+
+CREATE TABLE ProductTbl(
+	ProductID INT NOT NULL AUTO_INCREMENT,
+	CategoryID INT NOT NULL,
+	ProductName VARCHAR(50) NOT NULL,
+	ProductDescription VARCHAR(255),
+	ProductPrice DECIMAL(15,2) NOT NULL,
+	ProductStock INT NOT NULL,
+	ProductImage VARCHAR(500),
+	PRIMARY KEY (ProductID),
+	FOREIGN KEY (CategoryID) REFERENCES CategoryTbl(CategoryID)
+);
+
+CREATE TABLE FavoriteTbl(
+	FavoriteID INT NOT NULL AUTO_INCREMENT,
+	ProductID INT NOT NULL,
+	CustomerID INT NOT NULL,
+	PRIMARY KEY (FavoriteID),
+	FOREIGN KEY (ProductID) REFERENCES ProductTbl(ProductID),
+	FOREIGN KEY (CustomerID) REFERENCES CustomerTbl(CustomerID)
+);
+
+CREATE TABLE OrderTbl(
+	OrderID INT NOT NULL AUTO_INCREMENT,
+	CustomerID INT NOT NULL,
+	Order_DateTime DATETIME NOT NULL,
+	OrderStatus INT NOT NULL,
+	PRIMARY KEY (OrderID),
+	FOREIGN KEY (CustomerID) REFERENCES CustomerTbl(CustomerID)
+);
+
+CREATE TABLE OrderDetailsTbl(
+	OrderDetailsID INT NOT NULL AUTO_INCREMENT,
+	OrderID INT NOT NULL,
+	ProductID INT NOT NULL,
+	OrderQuantity INT NOT NULL,
+	PRIMARY KEY (OrderDetailsID),
+	FOREIGN KEY (OrderID) REFERENCES OrderTbl(OrderID),
+	FOREIGN KEY (ProductID) REFERENCES ProductTbl(ProductID)
+);
+
+CREATE TABLE AdminTbl(
+	UserID INT NOT NULL AUTO_INCREMENT,
+	AdminUsername VARCHAR(255) NOT NULL,
+	AdminPassword VARCHAR(255) NOT NULL,
+	PRIMARY KEY(UserID)
+);
+
